@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.daw.dao.specificDaoImplementation;
+package net.daw.dao.specificDaoImplementation_0;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.daw.bean.beanImplementation.UsuarioBean;
+import net.daw.bean.publicBeanInterface.BeanInterface;
 import net.daw.dao.genericDaoImplementation.GenericDaoImplementation;
 import net.daw.dao.publicDaoInterface.DaoInterface;
 
@@ -18,24 +19,17 @@ import net.daw.dao.publicDaoInterface.DaoInterface;
  *
  * @author Ramón
  */
-public class UsuarioDao  extends GenericDaoImplementation implements DaoInterface{
+public class UsuarioDao_0  extends GenericDaoImplementation implements DaoInterface{
     
-UsuarioBean oUsuarioBeanSession;
-int idSessionUser;
-int idSessionUserTipe;
 
- public UsuarioDao(Connection oConnection, String ob,UsuarioBean oUsuarioBeanSession) {
+
+ public UsuarioDao_0(Connection oConnection, String ob,UsuarioBean oUsuarioBeanSession) {
         super(oConnection, ob,oUsuarioBeanSession);
-        this.oUsuarioBeanSession=oUsuarioBeanSession;
-        //aqui no hace falta; login puede hacer todo el mundo y es lo único que queda
-        if (oUsuarioBeanSession != null) {
-            idSessionUser = oUsuarioBeanSession.getId();
-            idSessionUserTipe = oUsuarioBeanSession.getId_tipoUsuario();
-        }
+
 
     }
  
- 
+
     
     public UsuarioBean login(String strUserName, String strPassword) throws Exception {
         String strSQL = "SELECT * FROM " + ob + " WHERE login=? AND pass=?";
@@ -49,7 +43,7 @@ int idSessionUserTipe;
             oResultSet = oPreparedStatement.executeQuery();
             if (oResultSet.next()) {
                 oUsuarioBean = new UsuarioBean();
-                oUsuarioBean.fill(oResultSet, oConnection, 1, oUsuarioBeanSession);
+                oUsuarioBean.fill(oResultSet, oConnection, 1, oUsuarioBean);//aqui esta el tema
             } else {
                 oUsuarioBean = null;
             }

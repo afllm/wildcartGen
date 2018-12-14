@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import net.daw.bean.genericBeanImplementation.GenericBeanImplementation;
 import net.daw.bean.publicBeanInterface.BeanInterface;
 import net.daw.dao.publicDaoInterface.DaoInterface;
-import net.daw.dao.specificDaoImplementation.TipoproductoDao;
+import net.daw.dao.specificDaoImplementation_1.TipoproductoDao;
 import net.daw.factory.DaoFactory;
 import net.daw.helper.EncodingHelper;
 

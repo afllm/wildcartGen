@@ -3,34 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.daw.dao.specificDaoImplementation;
+package net.daw.dao.specificDaoImplementation_1;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import net.daw.bean.beanImplementation.ProductoBean;
+
 import net.daw.bean.beanImplementation.UsuarioBean;
+import net.daw.bean.publicBeanInterface.BeanInterface;
 import net.daw.dao.genericDaoImplementation.GenericDaoImplementation;
 import net.daw.dao.publicDaoInterface.DaoInterface;
-import net.daw.helper.SqlBuilder;
 
 /**
  *
- * @author a044531896d
+ * @author Ramón
  */
-public class ProductoDao extends GenericDaoImplementation implements DaoInterface{
+public class UsuarioDao_2 extends GenericDaoImplementation implements DaoInterface {
 
-   public ProductoDao(Connection oConnection, String ob,UsuarioBean oUsuarioBean) {
-        super(oConnection, ob,oUsuarioBean);
+    public UsuarioDao_2(Connection oConnection, String ob, UsuarioBean oUsuarioBeanSession) {
+        super(oConnection, ob, oUsuarioBeanSession);
 
     }
-/*
-    public ProductoBean get(int id, Integer expand) throws Exception {
+
+    @Override
+    public UsuarioBean get(int id, Integer expand) throws Exception {
+        if (id == oUsuarioBeanSession.getId()) {
+            //String strSQL_get = "SELECT * FROM " + ob + " WHERE id=";
+            return (UsuarioBean) super.get(id, expand);
+        } else {
+            throw new Exception("Error en Dao get de " + ob);
+        }
+
+    }
+
+    /*
+    public UsuarioBean get(int id, Integer expand) throws Exception {
         String strSQL = "SELECT * FROM " + ob + " WHERE id=?";
-        ProductoBean oProductoBean;
+        UsuarioBean oUsuarioBean;
         ResultSet oResultSet = null;
         PreparedStatement oPreparedStatement = null;
         try {
@@ -38,10 +48,10 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
             oPreparedStatement.setInt(1, id);
             oResultSet = oPreparedStatement.executeQuery();
             if (oResultSet.next()) {
-                oProductoBean = new ProductoBean();
-                oProductoBean.fill(oResultSet, oConnection, expand);
+                oUsuarioBean = new UsuarioBean();
+                oUsuarioBean.fill(oResultSet, oConnection, expand);
             } else {
-                oProductoBean = null;
+                oUsuarioBean = null;
             }
         } catch (SQLException e) {
             throw new Exception("Error en Dao get de " + ob, e);
@@ -53,7 +63,7 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
                 oPreparedStatement.close();
             }
         }
-        return oProductoBean;
+        return oUsuarioBean;
     }
 
     public int remove(int id) throws Exception {
@@ -98,24 +108,23 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
         return res;
     }
 
-    public ProductoBean create(ProductoBean oProductoBean) throws Exception {
-        String strSQL = "INSERT INTO " + ob + " (`id`, `codigo`, `desc`, `existencias`, `precio`, `foto`, `id_tipoProducto`) VALUES (NULL, ?,?,?,?,?,?); ";
+    public UsuarioBean create(UsuarioBean oUsuarioBean) throws Exception {
+        String strSQL = "INSERT INTO " + ob;
+        strSQL += "(" + oUsuarioBean.getColumns() + ")";
+        strSQL += " VALUES ";
+        strSQL += "(" + oUsuarioBean.getValues() + ")";
         ResultSet oResultSet = null;
         PreparedStatement oPreparedStatement = null;
         try {
             oPreparedStatement = oConnection.prepareStatement(strSQL);
-            oPreparedStatement.setString(1, oProductoBean.getCodigo());
-            oPreparedStatement.setString(2, oProductoBean.getDesc());
-            oPreparedStatement.setInt(3, oProductoBean.getExistencias());
-            oPreparedStatement.setFloat(4, oProductoBean.getPrecio());
-            oPreparedStatement.setString(5, oProductoBean.getFoto());
-            oPreparedStatement.setInt(6, oProductoBean.getId_tipoProducto());
             oPreparedStatement.executeUpdate();
             oResultSet = oPreparedStatement.getGeneratedKeys();
             if (oResultSet.next()) {
-                oProductoBean.setId(oResultSet.getInt(1));
+                oUsuarioBean.setId(oResultSet.getInt(1));
+                oUsuarioBean.setPass(null);
             } else {
-                oProductoBean.setId(0);
+                oUsuarioBean.setId(0);
+                oUsuarioBean.setPass(null);
             }
         } catch (SQLException e) {
             throw new Exception("Error en Dao create de " + ob, e);
@@ -127,13 +136,13 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
                 oPreparedStatement.close();
             }
         }
-        return oProductoBean;
+        return oUsuarioBean;
     }
 
-    public int update(ProductoBean oProductoBean) throws Exception {
-       int iResult = 0;
+   public int update(UsuarioBean oUsuarioBean) throws Exception {
+        int iResult = 0;
         String strSQL = "UPDATE " + ob + " SET ";
-        strSQL += oProductoBean.getPairs(ob);
+        strSQL += oUsuarioBean.getPairs(ob);
 
         PreparedStatement oPreparedStatement = null;
         try {
@@ -141,7 +150,7 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
             iResult = oPreparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new Exception("Error en Dao update de " + ob+"--"+e.getMessage(), e);
+            throw new Exception("Error en Dao update de " + ob, e);
         } finally {
             if (oPreparedStatement != null) {
                 oPreparedStatement.close();
@@ -150,10 +159,10 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
         return iResult;
     }
 
-    public ArrayList<ProductoBean> getpage(int iRpp, int iPage, HashMap<String, String> hmOrder, Integer expand) throws Exception {
+    public ArrayList<UsuarioBean> getpage(int iRpp, int iPage, HashMap<String, String> hmOrder, Integer expand) throws Exception {
         String strSQL = "SELECT * FROM " + ob;
         strSQL += SqlBuilder.buildSqlOrder(hmOrder);
-        ArrayList<ProductoBean> alProductoBean;
+        ArrayList<UsuarioBean> alUsuarioBean;
         if (iRpp > 0 && iRpp < 100000 && iPage > 0 && iPage < 100000000) {
             strSQL += " LIMIT " + (iPage - 1) * iRpp + ", " + iRpp;
             ResultSet oResultSet = null;
@@ -161,11 +170,11 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
             try {
                 oPreparedStatement = oConnection.prepareStatement(strSQL);
                 oResultSet = oPreparedStatement.executeQuery();
-                alProductoBean = new ArrayList<ProductoBean>();
+                alUsuarioBean = new ArrayList<UsuarioBean>();
                 while (oResultSet.next()) {
-                    ProductoBean oProductoBean = new ProductoBean();
-                    oProductoBean.fill(oResultSet, oConnection, expand);
-                    alProductoBean.add(oProductoBean);
+                    UsuarioBean oUsuarioBean = new UsuarioBean();
+                    oUsuarioBean.fill(oResultSet, oConnection, expand);
+                    alUsuarioBean.add(oUsuarioBean);
                 }
             } catch (SQLException e) {
                 throw new Exception("Error en Dao getpage de " + ob, e);
@@ -180,8 +189,8 @@ public class ProductoDao extends GenericDaoImplementation implements DaoInterfac
         } else {
             throw new Exception("Error en Dao getpage de " + ob);
         }
-        return alProductoBean;
+        return alUsuarioBean;
 
     }
-*/
+     */
 }

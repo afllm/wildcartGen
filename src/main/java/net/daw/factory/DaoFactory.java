@@ -6,12 +6,12 @@
 package net.daw.factory;
 import java.sql.Connection;
 import net.daw.bean.beanImplementation.UsuarioBean;
-import net.daw.dao.specificDaoImplementation.FacturaDao;
-import net.daw.dao.specificDaoImplementation.LineaDao;
-import net.daw.dao.specificDaoImplementation.ProductoDao;
-import net.daw.dao.specificDaoImplementation.TipoproductoDao;
-import net.daw.dao.specificDaoImplementation.TipousuarioDao;
-import net.daw.dao.specificDaoImplementation.UsuarioDao;
+import net.daw.dao.specificDaoImplementation_1.FacturaDao;
+import net.daw.dao.specificDaoImplementation_1.LineaDao;
+import net.daw.dao.specificDaoImplementation_1.ProductoDao;
+import net.daw.dao.specificDaoImplementation_1.TipoproductoDao;
+import net.daw.dao.specificDaoImplementation_1.TipousuarioDao;
+import net.daw.dao.specificDaoImplementation_1.UsuarioDao_1;
 import net.daw.dao.publicDaoInterface.DaoInterface;
 
 /**
@@ -24,7 +24,7 @@ public class DaoFactory {
         DaoInterface oDao = null;
         switch (ob) {
             case "usuario":
-                oDao = new UsuarioDao(oConnection, ob, oUsuarioBean);
+                oDao = new UsuarioDao_1(oConnection, ob, oUsuarioBean);
                 break;
             case "tipousuario":
                 oDao = new TipousuarioDao(oConnection, ob,oUsuarioBean);

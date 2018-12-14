@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import net.daw.bean.genericBeanImplementation.GenericBeanImplementation;
 import net.daw.bean.publicBeanInterface.BeanInterface;
-import net.daw.dao.specificDaoImplementation.ProductoDao;
+import net.daw.dao.specificDaoImplementation_1.ProductoDao;
 
 public class LineaBean extends GenericBeanImplementation implements BeanInterface {
 

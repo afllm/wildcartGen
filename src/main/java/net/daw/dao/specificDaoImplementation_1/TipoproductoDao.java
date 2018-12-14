@@ -1,4 +1,4 @@
-package net.daw.dao.specificDaoImplementation;
+package net.daw.dao.specificDaoImplementation_1;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

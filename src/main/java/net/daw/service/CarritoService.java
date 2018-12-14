@@ -16,9 +16,9 @@ import net.daw.bean.beanImplementation.ReplyBean;
 import net.daw.bean.beanImplementation.UsuarioBean;
 import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;
-import net.daw.dao.specificDaoImplementation.FacturaDao;
-import net.daw.dao.specificDaoImplementation.LineaDao;
-import net.daw.dao.specificDaoImplementation.ProductoDao;
+import net.daw.dao.specificDaoImplementation_1.FacturaDao;
+import net.daw.dao.specificDaoImplementation_1.LineaDao;
+import net.daw.dao.specificDaoImplementation_1.ProductoDao;
 import net.daw.factory.ConnectionFactory;
 import net.daw.helper.EncodingHelper;
 

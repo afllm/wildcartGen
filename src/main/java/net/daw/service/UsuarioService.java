@@ -19,7 +19,8 @@ import net.daw.bean.beanImplementation.UsuarioBean;
 import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;
 import net.daw.dao.publicDaoInterface.DaoInterface;
-import net.daw.dao.specificDaoImplementation.UsuarioDao;
+import net.daw.dao.specificDaoImplementation_0.UsuarioDao_0;
+import net.daw.dao.specificDaoImplementation_1.UsuarioDao_1;
 import net.daw.factory.ConnectionFactory;
 import net.daw.factory.DaoFactory;
 import net.daw.helper.EncodingHelper;
@@ -222,7 +223,7 @@ public class UsuarioService {
                 Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
-                UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob, oUsuarioBean);
+                UsuarioDao_1 oUsuarioDao = new UsuarioDao_1(oConnection, ob, oUsuarioBean);
                 UsuarioBean oUsuarioBean = new UsuarioBean();
                 for (int i = 1; i <= number; i++) {
                     oUsuarioBean.setDni("765934875A");
@@ -255,7 +256,7 @@ public class UsuarioService {
 
         oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
         oConnection = oConnectionPool.newConnection();
-        UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob, oUsuarioBean);
+        UsuarioDao_0 oUsuarioDao = new UsuarioDao_0(oConnection, ob, oUsuarioBean);
 
         UsuarioBean oUsuarioBeanLogin = oUsuarioDao.login(strLogin, strPassword);
         if (oUsuarioBeanLogin != null) {
