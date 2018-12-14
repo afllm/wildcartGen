@@ -21,13 +21,22 @@ import net.daw.dao.publicDaoInterface.DaoInterface;
 public class UsuarioDao  extends GenericDaoImplementation implements DaoInterface{
     
 UsuarioBean oUsuarioBeanSession;
+int idSessionUser;
+int idSessionUserTipe;
 
  public UsuarioDao(Connection oConnection, String ob,UsuarioBean oUsuarioBeanSession) {
         super(oConnection, ob,oUsuarioBeanSession);
         this.oUsuarioBeanSession=oUsuarioBeanSession;
+        //aqui no hace falta; login puede hacer todo el mundo y es lo único que queda
+        if (oUsuarioBeanSession != null) {
+            idSessionUser = oUsuarioBeanSession.getId();
+            idSessionUserTipe = oUsuarioBeanSession.getId_tipoUsuario();
+        }
 
     }
-
+ 
+ 
+    
     public UsuarioBean login(String strUserName, String strPassword) throws Exception {
         String strSQL = "SELECT * FROM " + ob + " WHERE login=? AND pass=?";
         UsuarioBean oUsuarioBean;
