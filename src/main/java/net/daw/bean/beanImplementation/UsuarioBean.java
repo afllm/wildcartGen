@@ -113,7 +113,7 @@ public class UsuarioBean extends GenericBeanImplementation implements BeanInterf
         this.link_factura = link_factura;
     }
 @Override
-    public UsuarioBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
+    public UsuarioBean fill(ResultSet oResultSet, Connection oConnection, Integer expand, UsuarioBean oUsuarioBeanSession) throws Exception {
         this.setId(oResultSet.getInt("id"));
         this.setDni(oResultSet.getString("dni"));
         this.setNombre(oResultSet.getString("nombre"));
@@ -121,10 +121,11 @@ public class UsuarioBean extends GenericBeanImplementation implements BeanInterf
         this.setApe2(oResultSet.getString("ape2"));
         this.setLogin(oResultSet.getString("login"));
         this.setPass(oResultSet.getString("pass"));
-        FacturaDao oFacturaDao = new FacturaDao(oConnection, "factura");
+        //FacturaService oFacturaService
+        FacturaDao oFacturaDao = new FacturaDao(oConnection, "factura",oUsuarioBeanSession);
         this.setLink_factura(oFacturaDao.getcountFacturaUser(this.id));
         if (expand > 0) {
-            TipousuarioDao otipousuarioDao = new TipousuarioDao(oConnection, "tipousuario");
+            TipousuarioDao otipousuarioDao = new TipousuarioDao(oConnection, "tipousuario",oUsuarioBeanSession);
             this.setObj_tipoUsuario((TipousuarioBean) otipousuarioDao.get(oResultSet.getInt("id_tipoUsuario"), expand - 1));
         } else {
             this.setId_tipoUsuario(oResultSet.getInt("id_tipoUsuario"));

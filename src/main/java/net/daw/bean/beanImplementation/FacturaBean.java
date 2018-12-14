@@ -75,17 +75,18 @@ public class FacturaBean extends GenericBeanImplementation implements BeanInterf
     }
     
  @Override
-   public FacturaBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws SQLException, Exception {
+   public FacturaBean fill(ResultSet oResultSet, Connection oConnection, Integer expand,UsuarioBean oUsuarioBeanSession) throws SQLException, Exception {
         this.setId(oResultSet.getInt("id"));
         //Timestamp LUL = oResultSet.getTimestamp("fecha");
         //this.setFecha(LUL);
         this.setFecha(oResultSet.getDate("fecha"));
         this.setIva(oResultSet.getDouble("iva"));
+        
         if (expand > 0) {
-            DaoInterface oUsuarioDao = DaoFactory.getDao(oConnection, "usuario");
+            DaoInterface oUsuarioDao = DaoFactory.getDao(oConnection, "usuario", oUsuarioBeanSession);//¿¿¿???
             this.setObj_Usuario((UsuarioBean) oUsuarioDao.get(oResultSet.getInt("id_usuario"), expand));
         }
-        LineaDao oLineaDao = new LineaDao(oConnection, "linea");
+        LineaDao oLineaDao = new LineaDao(oConnection, "linea", oUsuarioBeanSession);
         this.setLink_linea(oLineaDao.getcountxlinea(this.getId()));
         return this;
 }

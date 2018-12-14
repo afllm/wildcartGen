@@ -5,6 +5,7 @@
  */
 package net.daw.factory;
 import java.sql.Connection;
+import net.daw.bean.beanImplementation.UsuarioBean;
 import net.daw.dao.specificDaoImplementation.FacturaDao;
 import net.daw.dao.specificDaoImplementation.LineaDao;
 import net.daw.dao.specificDaoImplementation.ProductoDao;
@@ -19,26 +20,26 @@ import net.daw.dao.publicDaoInterface.DaoInterface;
  */
 public class DaoFactory {
 
-    public static DaoInterface getDao(Connection oConnection, String ob) {
+    public static DaoInterface getDao(Connection oConnection, String ob,UsuarioBean oUsuarioBean) {
         DaoInterface oDao = null;
         switch (ob) {
             case "usuario":
-                oDao = new UsuarioDao(oConnection, ob);
+                oDao = new UsuarioDao(oConnection, ob, oUsuarioBean);
                 break;
             case "tipousuario":
-                oDao = new TipousuarioDao(oConnection, ob);
+                oDao = new TipousuarioDao(oConnection, ob,oUsuarioBean);
                 break;
             case "tipoproducto":
-                oDao = new TipoproductoDao(oConnection, ob);
+                oDao = new TipoproductoDao(oConnection, ob,oUsuarioBean);
                 break;
             case "producto":
-                oDao = new ProductoDao(oConnection, ob);
+                oDao = new ProductoDao(oConnection, ob,oUsuarioBean);
                 break;
             case "factura":
-                oDao = new FacturaDao(oConnection, ob);
+                oDao = new FacturaDao(oConnection, ob,oUsuarioBean);
                 break;
             case "linea":
-                oDao = new LineaDao(oConnection, ob);
+                oDao = new LineaDao(oConnection, ob,oUsuarioBean);
                 break;
         }
         return oDao;

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import net.daw.bean.beanImplementation.UsuarioBean;
 import net.daw.bean.publicBeanInterface.BeanInterface;
 import net.daw.dao.publicDaoInterface.DaoInterface;
 import net.daw.factory.BeanFactory;
@@ -24,11 +25,13 @@ public class GenericDaoImplementation implements DaoInterface {
 
     protected Connection oConnection;
     protected String ob = null;
+    protected UsuarioBean oUsuarioBeanSession;
 
-    public GenericDaoImplementation(Connection oConnection, String ob) {
+    public GenericDaoImplementation(Connection oConnection, String ob,UsuarioBean oUsuarioBeanSession) {
         super();
         this.oConnection = oConnection;
         this.ob = ob;
+        this.oUsuarioBeanSession= oUsuarioBeanSession;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class GenericDaoImplementation implements DaoInterface {
             oResultSet = oPreparedStatement.executeQuery();
             if (oResultSet.next()) {
                 oBean = BeanFactory.getBean(ob);
-                oBean.fill(oResultSet, oConnection, expand);
+                oBean.fill(oResultSet, oConnection, expand, oUsuarioBeanSession);
             } else {
                 oBean = null;
             }
@@ -169,7 +172,7 @@ public class GenericDaoImplementation implements DaoInterface {
                 alBean = new ArrayList<BeanInterface>();
                 while (oResultSet.next()) {
                     BeanInterface oBean = BeanFactory.getBean(ob);
-                    oBean.fill(oResultSet, oConnection, expand);
+                    oBean.fill(oResultSet, oConnection, expand, oUsuarioBeanSession);
                     alBean.add(oBean);
                 }
             } catch (SQLException e) {

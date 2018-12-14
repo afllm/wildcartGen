@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.daw.bean.beanImplementation.TipoproductoBean;
+import net.daw.bean.beanImplementation.UsuarioBean;
 import net.daw.dao.genericDaoImplementation.GenericDaoImplementation;
 import net.daw.dao.publicDaoInterface.DaoInterface;
 import net.daw.helper.SqlBuilder;
 
 public class TipoproductoDao extends GenericDaoImplementation implements DaoInterface{
 
-  public TipoproductoDao(Connection oConnection, String ob) {
-        super(oConnection, ob);
+  public TipoproductoDao(Connection oConnection, String ob,UsuarioBean oUsuarioBean) {
+        super(oConnection, ob,oUsuarioBean);
 
     }
 /*

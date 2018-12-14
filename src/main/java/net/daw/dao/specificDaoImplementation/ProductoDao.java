@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import net.daw.bean.beanImplementation.ProductoBean;
+import net.daw.bean.beanImplementation.UsuarioBean;
 import net.daw.dao.genericDaoImplementation.GenericDaoImplementation;
 import net.daw.dao.publicDaoInterface.DaoInterface;
 import net.daw.helper.SqlBuilder;
@@ -22,8 +23,8 @@ import net.daw.helper.SqlBuilder;
  */
 public class ProductoDao extends GenericDaoImplementation implements DaoInterface{
 
-   public ProductoDao(Connection oConnection, String ob) {
-        super(oConnection, ob);
+   public ProductoDao(Connection oConnection, String ob,UsuarioBean oUsuarioBean) {
+        super(oConnection, ob,oUsuarioBean);
 
     }
 /*

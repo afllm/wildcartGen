@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import net.daw.bean.beanImplementation.LineaBean;
+import net.daw.bean.beanImplementation.UsuarioBean;
 import net.daw.dao.genericDaoImplementation.GenericDaoImplementation;
 import net.daw.dao.publicDaoInterface.DaoInterface;
 
@@ -20,8 +21,8 @@ import net.daw.dao.publicDaoInterface.DaoInterface;
  */
 public class LineaDao extends GenericDaoImplementation implements DaoInterface{
 
-  public LineaDao(Connection oConnection, String ob) {
-        super(oConnection, ob);
+  public LineaDao(Connection oConnection, String ob,UsuarioBean oUsuarioBeanSession) {
+        super(oConnection, ob,oUsuarioBeanSession);
 
     }
 /*
@@ -197,7 +198,7 @@ public class LineaDao extends GenericDaoImplementation implements DaoInterface{
 
                 while (oResultSet.next()) {
                     LineaBean oLineaBean = new LineaBean();
-                    oLineaBean.fill(oResultSet, oConnection, expand);
+                    oLineaBean.fill(oResultSet, oConnection, expand, oUsuarioBeanSession);
                     alLineaBean.add(oLineaBean);
                 }
             } catch (SQLException e) {

@@ -27,6 +27,7 @@ public class FacturaService {
 
     HttpServletRequest oRequest;
     String ob = null;
+    UsuarioBean oUsuarioBean;
 
     public FacturaService(HttpServletRequest oRequest) {
         super();
@@ -35,7 +36,7 @@ public class FacturaService {
     }
 
     protected Boolean checkPermission(String strMethodName) {
-        UsuarioBean oUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
+        oUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
         if (oUsuarioBean != null) {
             return true;
         } else {
@@ -55,7 +56,7 @@ public class FacturaService {
                 oConnection = oConnectionPool.newConnection();
 //                TipoproductoDao oTipoproductoDao = new TipoproductoDao(oConnection, ob);
                 
-                DaoInterface oDao = DaoFactory.getDao(oConnection, ob);
+                DaoInterface oDao = DaoFactory.getDao(oConnection, ob, oUsuarioBean);
 
                 BeanInterface oBean  = oDao.get(id, 1);
                
@@ -83,7 +84,7 @@ public class FacturaService {
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
                 //TipoproductoDao oTipoproductoDao = new TipoproductoDao(oConnection, ob);
-                DaoInterface oDao = DaoFactory.getDao(oConnection, ob);
+                DaoInterface oDao = DaoFactory.getDao(oConnection, ob,oUsuarioBean);
                 int iRes = oDao.remove(id);
                 oReplyBean = new ReplyBean(200, Integer.toString(iRes));
             } catch (Exception ex) {
@@ -107,7 +108,7 @@ public class FacturaService {
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
 
-                DaoInterface oDao = DaoFactory.getDao(oConnection, ob);
+                DaoInterface oDao = DaoFactory.getDao(oConnection, ob,oUsuarioBean);
 
                 //TipoproductoDao oTipoproductoDao = new TipoproductoDao(oConnection, ob);
                 int registros = oDao.getcount();
@@ -141,7 +142,7 @@ public class FacturaService {
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
 
-                DaoInterface oDao = DaoFactory.getDao(oConnection, ob);
+                DaoInterface oDao = DaoFactory.getDao(oConnection, ob,oUsuarioBean);
                 oBean = oDao.create(oBean);
                 oReplyBean = new ReplyBean(200, oGson.toJson(oBean));
             } catch (Exception ex) {
@@ -167,7 +168,7 @@ public class FacturaService {
                 BeanInterface oBean = oGson.fromJson(strJsonFromClient, FacturaBean.class);
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
-                DaoInterface oDao = DaoFactory.getDao(oConnection, ob);
+                DaoInterface oDao = DaoFactory.getDao(oConnection, ob,oUsuarioBean);
                 iRes = oDao.update(oBean);
                 oReplyBean = new ReplyBean(200, Integer.toString(iRes));
             } catch (Exception ex) {
@@ -192,7 +193,7 @@ public class FacturaService {
                 HashMap<String, String> hmOrder = ParameterCook.getOrderParams(oRequest.getParameter("order"));
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
-                DaoInterface oDao = DaoFactory.getDao(oConnection, ob);
+                DaoInterface oDao = DaoFactory.getDao(oConnection, ob,oUsuarioBean);
                 ArrayList<BeanInterface> alBean = oDao.getpage(iRpp, iPage, hmOrder, 1);
                 Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
                 oReplyBean = new ReplyBean(200, oGson.toJson(alBean));
@@ -218,7 +219,7 @@ public class FacturaService {
                 Integer id = Integer.parseInt(oRequest.getParameter("id"));
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
-                FacturaDao oFacturaDao = new FacturaDao(oConnection, ob);
+                FacturaDao oFacturaDao = new FacturaDao(oConnection, ob,oUsuarioBean);
                 int registros = oFacturaDao.getcountFacturaUser(id);
                 Gson oGson = new Gson();
                 oReplyBean = new ReplyBean(200, oGson.toJson(registros));
@@ -246,7 +247,7 @@ public class FacturaService {
                 Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
-                FacturaDao oFacturaDao = new FacturaDao(oConnection, ob);
+                FacturaDao oFacturaDao = new FacturaDao(oConnection, ob,oUsuarioBean);
                 ArrayList<FacturaBean> alLineaBean = oFacturaDao.getpageXusuario(iRpp, iPage, id_usuario, 1);
                 Gson oGson = new Gson();
                 oReplyBean = new ReplyBean(200, oGson.toJson(alLineaBean));

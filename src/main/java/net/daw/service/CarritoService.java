@@ -30,6 +30,7 @@ public class CarritoService {
     ReplyBean oReplyBean;
     ArrayList<ItemBean> cart = null;
     Connection oConnection = null;
+    UsuarioBean oUsuarioBean;
 
     public CarritoService(HttpServletRequest oRequest) {
         super();
@@ -66,7 +67,7 @@ public class CarritoService {
             Integer cant = Integer.parseInt(oRequest.getParameter("cant"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            ProductoDao oProductoDao = new ProductoDao(oConnection, "producto");
+            ProductoDao oProductoDao = new ProductoDao(oConnection, "producto",oUsuarioBean);
             ProductoBean oProductoBean = (ProductoBean) oProductoDao.get(id, 2);
             Integer existencias = oProductoBean.getExistencias();
 
@@ -133,7 +134,7 @@ public class CarritoService {
             Integer cant = Integer.parseInt(oRequest.getParameter("cant"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            ProductoDao oProductoDao = new ProductoDao(oConnection, "producto");
+            ProductoDao oProductoDao = new ProductoDao(oConnection, "producto",oUsuarioBean);
             ProductoBean oProductoBean = (ProductoBean) oProductoDao.get(id, 2);
 
             Integer existencias = oProductoBean.getExistencias();
@@ -259,15 +260,15 @@ public class CarritoService {
             oFacturaBean.setIva(21.0);
 
             //ya tenemos el bean relleno, solo falta crear la factura
-            FacturaDao oFacturaDao = new FacturaDao(oConnection, "factura");
+            FacturaDao oFacturaDao = new FacturaDao(oConnection, "factura",oUsuarioBean);
 
             FacturaBean oFacturaBeanCreada = (FacturaBean) oFacturaDao.create(oFacturaBean);
             int id_factura = oFacturaBeanCreada.getId();
             //YA TENEMOS CREADA LA FACTURA Y FATA HACER BUCLE PARA CREAR LINEAS
             LineaDao oLineaDao;
             LineaBean oLineaBean;
-            ProductoDao oProductoDao = new ProductoDao(oConnection, "producto");
-            oLineaDao = new LineaDao(oConnection, "linea");
+            ProductoDao oProductoDao = new ProductoDao(oConnection, "producto",oUsuarioBean);
+            oLineaDao = new LineaDao(oConnection, "linea",oUsuarioBean);
             ProductoBean oProductoBean;
 
             for (ItemBean ib : cart) {
